@@ -1,0 +1,102 @@
+---
+title: "Unit 02 assignment"
+author: "Stacey Smith"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# 1. Put the following questions into RMarkdown as headers (or subheaders if youre making question numbers headings). Be sure to answer the questions underneath each header. 
+
+## What is a basic workflow for reproducible research?
+
+1. Data Gathering
+2. Data Analysis
+3. Results Presentation
+
+## What are five practical tips for making research reproducible?
+
+1. Document everything! 
+2. Everything is a (text) file. 
+3. All files should be human readable. 
+4. Explicitly tie your files together. 
+5. Have a plan to organize, store, and make your files available.
+
+##	Give an example of how you might implement each tip.
+
+1. Explain or comment every step of the process. In R run the sessionInfo command.
+2. Make sure I save all my information in a text file.
+3. Make sure I insert comments throughout my research.
+4. I will use the commands in Table 2.1 to tie together my research files.
+5. I will use GitHub.
+
+##	Which one of these do you think will be the most difficult?
+
+Explicitly tie your files together. 
+
+#------------------------------------------------------------------------------------------------------------------------------------------
+# 2. Download and complete air_hist.R code from the Files Tab on 2DS.  You will build scatter plots using the plot function.
+
+```{r}
+# Take only Temp columns
+Temperature <- airquality$Temp
+hist(Temperature)
+
+# Histogram with added parameters
+hist(Temperature,
+     main="Maximum daily temperature at La Guardia Airport",
+     xlab="Temperature in degrees Fahrenheit",
+     xlim=c(50,100),
+     col="darkmagenta",
+     freq=FALSE
+)
+```
+
+## Plots
+
+```{r pressure, echo=TRUE}
+#plot(pressure)
+plot(x=airquality$Month, y=airquality$Temp,main = "Temperature by Month", xlab = "Month", ylab = "Temperature by Month")   # How are the Month and temperature measurements relate?
+
+plot(x=airquality$Temp, y=airquality$Ozone,main = "Temperature vs Ozone", xlab = "Temperature", ylab = "Ozone")   # How are the Ozone and temperature measurements relate?
+```
+
+#3. Download and complete knit_cars.Rmd in the Files tab on 2DS. 
+
+```{r cars}
+summary(cars)
+```
+
+```{r cars_plot, echo=FALSE}
+plot(cars)
+```
+
+## Including Plots
+```{r pressure_data}
+summary(pressure)
+```
+
+You can also embed plots as default, for example:
+<!--
+TODO: Assignment 2: 3A, complete the following scatter plot. 
+The x axis is pressure, while the y axis is temperature
+Please title the graph "Temperature vs Pressure"
+-->
+```{r pressure_plot, echo=TRUE}
+#plot(pressure, )
+plot(x=pressure, main = "Pressure vs Temperature", xlab = "Pressure", ylab = "Temperature")   # Temperature vs Pressure?
+```
+
+Now flip it!
+
+<!--
+TODO: Assignment 2: 3B, complete the following scatter plot:
+x axis is pressure, y axis is temperature,
+Label the x axis as "Pressure" and the y axis as "Temperature", 
+Title the graph as "Pressure vs Temperature"
+-->
+
+```{r pressure_plot2, echo=TRUE}
+plot(x=pressure, main = "Pressure vs Temperature", xlab = "Temperature", ylab = "Pressure",log="y")   # Pressure vs Temperature?
+```

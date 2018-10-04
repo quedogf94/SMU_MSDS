@@ -1,0 +1,87 @@
+---
+title: "Unit3Assignment"
+author: "Stacey Smith"
+date: "9/17/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1. Steps to make directory and clone repository
+
+```{r}
+#1.mkdir Assignment 
+#2.cd Assignment
+#3.git clone "https://github.com/awesomedata/awesome-public-datasets.git"
+```
+
+## 2. Data Summary
+
+2.	Data Summary: From this aforementioned cloned repo, please extract titanic.csv.zip.  To be clear, this does not have to be done in Git or command line. </br> 
+a.	In R, please read in titanic.csv via either read.table() or read.csv(), assigning it to df.  This dataset follows the passengers aboard the Titanic, including their fees paid, rooms rented, and survivorship status.</br> 
+
+
+```{r}
+setwd("/SMU/MSDS_6306_Doing_Data_Science/Week3/Assignment/awesome-public-datasets/Datasets")
+df <- read.csv("/SMU/MSDS_6306_Doing_Data_Science/Week3/Assignment/awesome-public-datasets/Datasets/titanic.csv",header = TRUE)
+summary(df)
+table(df$Sex)
+mean(df$Age,na.rm = TRUE)
+mean(df$Fare,na.rm = TRUE)
+mean(df$Survived,na.rm = TRUE)
+```
+## Plots for Question 2
+```{r, echo=TRUE}
+barplot(table(df$Sex),ylim=c(0,600),main='Fequency of Males and Females',xlab = 'Sex',ylab = 'Fequency', col = c('pink','blue'))
+```
+
+## 3. Functions Building
+```{r sleep}
+sleep_function <- function(){
+median_age <- median(sleep$Age,na.rm = TRUE)
+min_duration_sleep <- min(sleep$Duration, na.rm = TRUE)
+max_duration_sleep <- max(sleep$Duration, na.rm = TRUE)
+mean_rses <- mean(sleep$RSES, na.rm = TRUE)
+sd_rses <- sd(sleep$RSES, na.rm = TRUE)
+rses_mean_div = mean_rses/5
+sd_rses_div = sd_rses/5
+range_sd = range(min_duration_sleep,max_duration_sleep,na.rm = TRUE)
+range2 = diff(range_sd)
+df_sleep = data.frame(median_age,rses_mean_div,sd_rses_div,range2)
+names(df_sleep) <- c("MedianAge", "SelfEsteem", "SE_SD","DurationRange")
+round(df_sleep, digits = 2)
+}
+```
+```{r}
+setwd("/SMU/MSDS_6306_Doing_Data_Science/Week3/Assignment/awesome-public-datasets/Datasets")
+sleep <- read.csv("/SMU/MSDS_6306_Doing_Data_Science/Week3/Assignment/awesome-public-datasets/Datasets/sleep_data_01.csv",header = TRUE)
+sleep_function()
+```
+## 4 and 5. FiveThirty Eight Data
+```{r fivethirtyeight, echo=TRUE}
+
+##Column names of each column and count
+#install.packages("fivethirtyeight")
+library(fivethirtyeight)
+df <- data.frame(college_recent_grads)
+names(df)
+ncol(df)
+## of data sets in the package
+d <- data(package = "fivethirtyeight")
+d$results[, "Item"]
+##assign it to use later
+nm <- d$results[, "Item"]
+data(list = nm, package = "fivethirtyeight")
+##get dimensions of each dataset
+lapply(mget(nm), dim)
+##Generate a count of each unique majory category
+major_count <-sapply(df, unique)
+```
+
+## Link to GitHub
+https://github.com/quedogf94/SMU-MSDS/tree/master/MSDS_6306_Doing_Data_Science/Week3/Assignment
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

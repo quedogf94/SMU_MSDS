@@ -1,0 +1,73 @@
+---
+title: "SSmith_Unit_04_assignment"
+author: "Stacey Smith"
+date: "9/25/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 	1. Harry Potter Cast 
+
+```{r Harry Potter Cast}
+library("sqldf")
+library("rvest")
+library("dplyr")
+library("XML")
+library(tidyr)
+library(stringr)
+library(ggplot2)
+url <- "https://www.imdb.com/title/tt1201607/fullcredits?ref_=tt_ql_1"
+movie <-read_html(url)
+cast_list <- movie %>%
+html_nodes("table") %>%
+.[[3]] %>%
+html_table()
+cast_list <- as.data.frame(cast_list)
+cast_list_new <- sqldf("select X2 as Actor, X4 as Character from cast_list")
+cast_list_new <- cast_list_new[-c(93),] #Remove row 93 because it's not a name
+cast_list_new <- cast_list_new[-c(1),] #Remove the first row because it's null
+cast_list_new <- separate(cast_list_new,Actor, c("FirstName","Surname"), sep =" ") #Split acter names into two column
+attach(cast_list_new)
+head(cast_list_new, 10)
+```
+
+## 	1. SportsBall 
+
+```{r Sports Ball}
+url <- 'http://www.espn.com/nba/team/stats/_/name/sa/san-antonio-spurs'
+webpage <- read_html(url)
+sb_table <- html_nodes(webpage, 'table')
+sb <- html_table(sb_table, fill = TRUE)[[2]]
+head(sb)
+spurs <- as.data.frame(sb)
+spurs <- spurs[-c(17),] #Remove the Totals row The row is number 17
+spurs <- spurs[-c(1),] #Remove the first row
+colnames(spurs) = spurs[1, ] # the first row will be the header
+spurs = spurs[-1, ]          # removing the first row.
+spurs <- separate(spurs,PLAYER, c("NAME","POSITION"), sep =",")
+# Now I must convert the datatype from char to num for the choosen columns
+id = 3:16 #vector of columns to convert
+spurs[id] = data.matrix(spurs[id]) #now convert datatype
+colnames(spurs)[which(names(spurs) == "FG%")] <- "FGP" #Rename FG% to FGP
+```
+
+
+
+
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r sportsball, echo=TRUE}
+ggplot(spurs, aes(NAME, FGP)) + 
+geom_bar(stat="identity", width=.5, fill="tomato3") + 
+coord_flip() + #Flip axis because the names are large
+ylab("Field Goal Percentage") + 
+xlab("Players Name")
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

@@ -1,0 +1,53 @@
+---
+title: "SSmithUnit5"
+author: "Stacey Smith"
+date: "10/1/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+Unit 5 Homework Stacey Smith
+
+```{r}
+library(dplyr)
+library(sqldf)
+setwd("/SMU/MSDS_6306_Doing_Data_Science/Week5/UNIT5")
+df <- read.csv("/SMU/MSDS_6306_Doing_Data_Science/Week5/UNIT5/yob2016.txt",header = FALSE,sep = ";")
+summary(df)
+str(df)
+#select(df,V1,V2,V3) #for me to learn dplyr, Same as SQL select statement
+sqldf("Select * from df where V1 Like '%yyy'")
+subset(df,V1=='Fionayyy')
+nrow(df) #Number of rows
+y2016 <- df %>% filter(V1 != 'Fionayyy')  #dplyr function to remove row
+nrow(y2016)
+#select(df,ends_with("yyy"))
+#----------------------------------------------
+
+y2015 <- read.csv("/SMU/MSDS_6306_Doing_Data_Science/Week5/UNIT5/yob2015.txt",header = FALSE,sep = ",")
+tail(y2015,10)
+```
+All the names start with a Z and Z is the last letter in the alphabet.
+
+```{r}
+final <- merge(y2015,y2016, by="V1")
+nrow(final)
+final <- mutate(final, total=V3.x+V3.y)
+final <- sqldf("select * from final order by total desc")
+nrow(final)
+head(final,10)
+girlsOnly <- final %>% filter(V2.x == 'F') #Only Select females
+head(girlsOnly,10)
+girlsOnly <- sqldf("Select V1, total from girlsOnly") #Only Select names and total
+girlsOnly <- head(girlsOnly,10)
+write.csv(girlsOnly, "girlsOnly.csv")
+```
+
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
